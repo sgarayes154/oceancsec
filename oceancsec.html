@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OceanCSec — Ciberseguridad de Profundidad</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep:    #020d18;
+    --abyss:   #030f1e;
+    --surface: #041525;
+    --current: #062038;
+    --tide:    #0a3050;
+    --foam:    #0e4a73;
+    --wave:    #0d7abf;
+    --crest:   #00c2ff;
+    --glow:    #00e5ff;
+    --white:   #e8f4ff;
+    --muted:   #6a99bb;
+    --accent:  #00ffc8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--deep);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── CANVAS BACKGROUND ── */
+  #ocean-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(2, 13, 24, 0.7);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0, 194, 255, 0.1);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .logo span { color: var(--crest); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.2rem;
+  }
+  nav ul a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  nav ul a:hover { color: var(--glow); }
+
+  .nav-cta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--deep) !important;
+    background: var(--crest);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  .nav-cta:hover {
+    background: var(--glow);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(0, 255, 200, 0.3);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.5s forwards;
+  }
+
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(90deg, var(--crest), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 540px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.7s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.9s forwards;
+  }
+
+  .btn-primary {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--crest);
+    color: var(--deep);
+    padding: 0.85rem 2rem;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 0 30px rgba(0, 194, 255, 0.3);
+  }
+  .btn-primary:hover {
+    background: var(--glow);
+    box-shadow: 0 0 50px rgba(0, 229, 255, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--white);
+    padding: 0.85rem 2rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--crest);
+    color: var(--crest);
+    transform: translateY(-2px);
+  }
+
+  /* depth indicator */
+  .depth-meter {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 1.4s forwards;
+  }
+  .depth-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--crest), transparent);
+    animation: pulse-line 2s infinite;
+  }
+  .depth-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(0,194,255,0.1);
+    border-bottom: 1px solid rgba(0,194,255,0.1);
+    background: rgba(4,21,37,0.8);
+    backdrop-filter: blur(8px);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    text-align: center;
+  }
+
+  .stat-item {
+    padding: 2rem;
+    border-right: 1px solid rgba(0,194,255,0.1);
+  }
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: var(--crest);
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-body {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 520px;
+  }
+
+  /* ── SERVICES ── */
+  #servicios { background: var(--abyss); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    margin-top: 4rem;
+    background: rgba(0,194,255,0.08);
+    border: 1px solid rgba(0,194,255,0.08);
+  }
+
+  .service-card {
+    background: var(--abyss);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+    cursor: default;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--wave), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s;
+  }
+  .service-card:hover { background: var(--current); }
+  .service-card:hover::before { transform: translateX(0); }
+
+  .service-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+  .service-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+  }
+  .service-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .service-num {
+    position: absolute;
+    top: 1.5rem; right: 1.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: rgba(0,194,255,0.25);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── ABOUT / WHY ── */
+  #nosotros {
+    background: var(--surface);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-visual {
+    position: relative;
+    height: 420px;
+  }
+  .depth-rings {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 194, 255, 0.15);
+    animation: expand 4s ease-in-out infinite;
+  }
+  .ring:nth-child(1) { width: 120px; height: 120px; border-color: rgba(0,194,255,0.4); animation-delay: 0s; }
+  .ring:nth-child(2) { width: 200px; height: 200px; animation-delay: 0.6s; }
+  .ring:nth-child(3) { width: 290px; height: 290px; animation-delay: 1.2s; }
+  .ring:nth-child(4) { width: 380px; height: 380px; animation-delay: 1.8s; }
+  .ring-center {
+    position: relative;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--wave) 0%, var(--deep) 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 40px rgba(0,194,255,0.4);
+    font-size: 2rem;
+    z-index: 2;
+  }
+
+  .about-points {
+    list-style: none;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .about-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .about-points li::before {
+    content: '//';
+    font-family: 'Space Mono', monospace;
+    color: var(--accent);
+    font-size: 0.7rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  /* ── STARTUPS / PORTFOLIO ── */
+  #portafolio { background: var(--abyss); }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 3.5rem;
+  }
+
+  .startup-card {
+    border: 1px solid rgba(0,194,255,0.1);
+    padding: 2rem;
+    border-radius: 2px;
+    background: rgba(6,32,56,0.4);
+    transition: all 0.35s;
+    position: relative;
+    overflow: hidden;
+  }
+  .startup-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,194,255,0.05) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+  .startup-card:hover {
+    border-color: rgba(0,194,255,0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0,194,255,0.1);
+  }
+  .startup-card:hover::after { opacity: 1; }
+
+  .startup-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(0,255,200,0.08);
+    border: 1px solid rgba(0,255,200,0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+  .startup-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .startup-card p {
+    font-size: 0.83rem;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 1.2rem;
+  }
+  .startup-status {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .status-active { color: var(--accent); }
+  .status-prospect { color: var(--wave); }
+
+  /* ── CONTACT ── */
+  #contacto {
+    background: var(--surface);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .contact-info h2 { margin-bottom: 1rem; }
+  .contact-info p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+  .contact-detail span:first-child {
+    font-size: 1.1rem;
+  }
+  .contact-detail a { color: var(--crest); text-decoration: none; }
+  .contact-detail a:hover { color: var(--glow); }
+
+  form { display: flex; flex-direction: column; gap: 1rem; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  input, textarea, select {
+    background: rgba(6,32,56,0.6);
+    border: 1px solid rgba(0,194,255,0.15);
+    color: var(--white);
+    padding: 0.8rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--crest);
+    box-shadow: 0 0 0 2px rgba(0,194,255,0.1);
+  }
+  textarea { resize: vertical; min-height: 120px; }
+  select option { background: var(--surface); }
+
+  .form-submit {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--crest);
+    color: var(--deep);
+    padding: 1rem;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 0 20px rgba(0,194,255,0.2);
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover {
+    background: var(--glow);
+    box-shadow: 0 0 40px rgba(0,229,255,0.4);
+    transform: translateY(-2px);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(0,194,255,0.1);
+    background: var(--abyss);
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--crest); }
+
+  .footer-copy {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .footer-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--crest); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse-line {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 1; }
+  }
+  @keyframes expand {
+    0%   { transform: scale(0.95); opacity: 0.6; }
+    50%  { transform: scale(1.03); opacity: 0.3; }
+    100% { transform: scale(0.95); opacity: 0.6; }
+  }
+
+  /* scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-visual { height: 280px; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="ocean-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Ocean<span>CSec</span></a>
+  <ul>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#portafolio">Portafolio</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Hablar con un experto</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🌊 Representación oficial en Chile</div>
+  <h1>
+    Protección<br>
+    <span class="line2">sin límites.</span>
+  </h1>
+  <p class="hero-sub">
+    Llevamos las tecnologías de ciberseguridad más avanzadas del mundo al mercado chileno. Profundo conocimiento, presencia local, visión global.
+  </p>
+  <div class="hero-actions">
+    <a href="#servicios" class="btn-primary">Explorar servicios</a>
+    <a href="#portafolio" class="btn-secondary">Ver portafolio</a>
+  </div>
+  <div class="depth-meter">
+    <span class="depth-label">Scroll</span>
+    <div class="depth-line"></div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip reveal">
+  <div class="stat-item">
+    <span class="stat-num">$18B</span>
+    <span class="stat-label">inversión global 2025</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">9.8%</span>
+    <span class="stat-label">crecimiento anual Chile</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">+300%</span>
+    <span class="stat-label">ataques en LATAM 2024</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">1°</span>
+    <span class="stat-label">Ley Marco Ciberseguridad</span>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="section-inner">
+    <span class="section-tag reveal">// Servicios</span>
+    <h2 class="section-title reveal reveal-delay-1">Lo que hacemos<br>por tu empresa.</h2>
+    <p class="section-body reveal reveal-delay-2">Somos el puente entre las startups de ciberseguridad más innovadoras del mundo y las empresas chilenas que necesitan protección real.</p>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-num">01</span>
+        <span class="service-icon">🛡️</span>
+        <h3>Representación de Tecnología</h3>
+        <p>Traemos al mercado chileno las plataformas de ciberseguridad más disruptivas, con soporte técnico local y en español.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-num">02</span>
+        <span class="service-icon">🤖</span>
+        <h3>SOC Automatizado con IA</h3>
+        <p>Implementamos centros de operaciones de seguridad basados en inteligencia artificial que trabajan 24/7 sin necesidad de grandes equipos.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-num">03</span>
+        <span class="service-icon">📋</span>
+        <h3>Compliance & Regulación</h3>
+        <p>Te preparamos para cumplir con la Ley Marco de Ciberseguridad, CMF, y certificaciones ISO 27001 de forma ágil y automatizada.</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">04</span>
+        <span class="service-icon">🔍</span>
+        <h3>Seguridad de Datos Cloud</h3>
+        <p>Visibilidad total sobre tus datos en la nube. Clasificación, detección de riesgos y privacidad automatizada para entornos multi-cloud.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-num">05</span>
+        <span class="service-icon">🆔</span>
+        <h3>Gestión de Identidad (IAM)</h3>
+        <p>Protegemos las identidades digitales de tu organización, incluyendo usuarios humanos, APIs y los nuevos agentes de inteligencia artificial.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-num">06</span>
+        <span class="service-icon">🏢</span>
+        <h3>vCISO para PYMEs</h3>
+        <p>Un Director de Seguridad virtual a la medida de tu empresa. Gobierno, riesgo y cumplimiento sin el costo de un ejecutivo de tiempo completo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div>
+        <span class="section-tag reveal">// Nosotros</span>
+        <h2 class="section-title reveal reveal-delay-1">Por qué<br>OceanCSec.</h2>
+        <p class="section-body reveal reveal-delay-2">Como el océano, la ciberseguridad es vasta, profunda y en constante movimiento. Nosotros navegamos ese entorno para traerte las soluciones más efectivas del mundo.</p>
+        <ul class="about-points reveal reveal-delay-3">
+          <li>Acceso directo a startups de ciberseguridad en etapa temprana con potencial probado</li>
+          <li>Representación exclusiva para Chile con soporte en español y presencia local</li>
+          <li>Conocimiento profundo del marco regulatorio chileno y sectores críticos</li>
+          <li>Red de partners MSP para escalar la protección en PYMEs y empresas medianas</li>
+          <li>Enfoque en tecnologías con IA: más cobertura, menos fricción operacional</li>
+        </ul>
+      </div>
+      <div class="about-visual reveal">
+        <div class="depth-rings">
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring-center">🌊</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTAFOLIO DE STARTUPS -->
+<section id="portafolio">
+  <div class="section-inner">
+    <span class="section-tag reveal">// Portafolio</span>
+    <h2 class="section-title reveal reveal-delay-1">Tecnología de clase<br>mundial en Chile.</h2>
+    <p class="section-body reveal reveal-delay-2">Seleccionamos las startups con mayor potencial y tracción global para representarlas en el mercado latinoamericano.</p>
+
+    <div class="portfolio-grid">
+      <div class="startup-card reveal">
+        <span class="startup-tag">vCISO / GRC</span>
+        <h3>Cynomi</h3>
+        <p>Plataforma vCISO automatizada para PYMEs. Gobernanza, gestión de riesgos y compliance a través de MSPs. Serie B — $37M.</p>
+        <span class="startup-status status-active">● Representación activa</span>
+      </div>
+      <div class="startup-card reveal reveal-delay-1">
+        <span class="startup-tag">Compliance</span>
+        <h3>Vanta</h3>
+        <p>Automatización de certificaciones SOC 2, ISO 27001 e HIPAA. La solución más adoptada por startups SaaS globales. Serie D — $150M.</p>
+        <span class="startup-status status-active">● Representación activa</span>
+      </div>
+      <div class="startup-card reveal reveal-delay-2">
+        <span class="startup-tag">AI Identity</span>
+        <h3>Descope</h3>
+        <p>Identidad y acceso para la era de los agentes de IA. Gobernanza de políticas y auditoría para entornos con IA generativa.</p>
+        <span class="startup-status status-prospect">◌ En negociación</span>
+      </div>
+      <div class="startup-card reveal">
+        <span class="startup-tag">Cloud Security</span>
+        <h3>Sentra</h3>
+        <p>Seguridad de datos nativa de la nube. Clasificación, detección de riesgos y privacidad automatizada. Serie B — $50M.</p>
+        <span class="startup-status status-prospect">◌ En negociación</span>
+      </div>
+      <div class="startup-card reveal reveal-delay-1">
+        <span class="startup-tag">SOC / AI</span>
+        <h3>7AI</h3>
+        <p>Agentes autónomos de IA para operaciones de seguridad. Triage, investigación y respuesta a incidentes sin intervención humana.</p>
+        <span class="startup-status status-prospect">◌ En evaluación</span>
+      </div>
+      <div class="startup-card reveal reveal-delay-2">
+        <span class="startup-tag">SME Security</span>
+        <h3>Zip Security</h3>
+        <p>Ciberseguridad simple y accesible para pequeñas empresas. Protección empresarial sin complejidad operacional.</p>
+        <span class="startup-status status-prospect">◌ En evaluación</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <span class="section-tag reveal">// Contacto</span>
+        <h2 class="section-title reveal reveal-delay-1">Hablemos de<br>tu seguridad.</h2>
+        <p class="reveal reveal-delay-2">¿Eres una empresa en Chile que necesita protección? ¿Una startup de ciberseguridad buscando representación LATAM? Conversemos.</p>
+
+        <div class="contact-detail reveal reveal-delay-2">
+          <span>📍</span>
+          <span>Santiago, Chile</span>
+        </div>
+        <div class="contact-detail reveal reveal-delay-2">
+          <span>📧</span>
+          <a href="mailto:hola@oceancsec.com">hola@oceancsec.com</a>
+        </div>
+        <div class="contact-detail reveal reveal-delay-2">
+          <span>🌐</span>
+          <a href="https://oceancsec.com">oceancsec.com</a>
+        </div>
+      </div>
+
+      <form class="reveal" onsubmit="handleForm(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-group">
+            <label>Empresa</label>
+            <input type="text" placeholder="Nombre de tu empresa">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="tu@empresa.com" required>
+        </div>
+        <div class="form-group">
+          <label>¿Qué buscas?</label>
+          <select>
+            <option value="">Selecciona una opción</option>
+            <option>Protección para mi empresa</option>
+            <option>Representación de mi startup en LATAM</option>
+            <option>Consultoría de ciberseguridad</option>
+            <option>Partnership / Canal de distribución</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mensaje</label>
+          <textarea placeholder="Cuéntanos sobre tu empresa y qué necesitas..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Enviar mensaje →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Ocean<span>CSec</span></div>
+  <div class="footer-copy">© 2025 OceanCSec SpA · Santiago, Chile · oceancsec.com</div>
+  <div class="footer-links">
+    <a href="#">LinkedIn</a>
+    <a href="#">Privacidad</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</footer>
+
+<script>
+/* ── OCEAN CANVAS ── */
+const canvas = document.getElementById('ocean-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [], waves = [];
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+// Particles
+for (let i = 0; i < 60; i++) {
+  particles.push({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.5 + 0.3,
+    dx: (Math.random() - 0.5) * 0.3,
+    dy: (Math.random() - 0.5) * 0.15,
+    alpha: Math.random() * 0.5 + 0.1
+  });
+}
+
+// Waves
+for (let i = 0; i < 3; i++) {
+  waves.push({ offset: Math.random() * Math.PI * 2, speed: 0.0005 + i * 0.0003, amp: 30 + i * 15 });
+}
+
+let t = 0;
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  // Draw wave layers
+  waves.forEach((wave, idx) => {
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    for (let x = 0; x <= W; x += 4) {
+      const y = H * (0.65 + idx * 0.12) + Math.sin(x * 0.006 + t * wave.speed * 1000 + wave.offset) * wave.amp;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(W, H);
+    ctx.closePath();
+    const grad = ctx.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, `rgba(13,122,191,${0.04 - idx * 0.01})`);
+    grad.addColorStop(1, `rgba(2,13,24,0)`);
+    ctx.fillStyle = grad;
+    ctx.fill();
+  });
+
+  // Draw particles
+  particles.forEach(p => {
+    p.x += p.dx;
+    p.y += p.dy;
+    if (p.x < 0) p.x = W;
+    if (p.x > W) p.x = 0;
+    if (p.y < 0) p.y = H;
+    if (p.y > H) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0,194,255,${p.alpha})`;
+    ctx.fill();
+  });
+
+  t++;
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* ── SCROLL REVEAL ── */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(el => observer.observe(el));
+
+/* ── FORM ── */
+function handleForm(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = '✓ Mensaje enviado';
+  btn.style.background = 'var(--accent)';
+  setTimeout(() => {
+    btn.textContent = 'Enviar mensaje →';
+    btn.style.background = '';
+    e.target.reset();
+  }, 3000);
+}
+</script>
+</body>
+</html>
