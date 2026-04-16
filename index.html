@@ -4,6 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OceanCSec — Ciberseguridad de Profundidad</title>
+
+<!-- SEO + OG -->
+<meta name="description" content="OceanCSec protege empresas chilenas con ciberseguridad avanzada: vCISO, SOC con IA, Compliance Ley Marco 21.663 y representación de tecnología global.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://oceancsec.com">
+
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://oceancsec.com">
+<meta property="og:title"       content="OceanCSec — Ciberseguridad de Profundidad">
+<meta property="og:description" content="Protegemos empresas chilenas con las tecnologías de ciberseguridad más avanzadas del mundo. vCISO, SOC con IA, Compliance Ley 21.663.">
+<meta property="og:image"       content="https://oceancsec.com/og-image.png">
+<meta property="og:locale"      content="es_CL">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="OceanCSec — Ciberseguridad de Profundidad">
+<meta name="twitter:description" content="Protegemos empresas chilenas con ciberseguridad avanzada y Compliance Ley Marco 21.663.">
+<meta name="twitter:image"       content="https://oceancsec.com/og-image.png">
+
+<!-- Favicon SVG inline -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23020d18'/><text x='4' y='24' font-size='22' font-family='monospace' fill='%2300c2ff'>O</text></svg>">
+
+<!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Organization",
+  "name":"OceanCSec",
+  "url":"https://oceancsec.com",
+  "description":"Empresa de ciberseguridad especializada en el mercado chileno: vCISO, SOC con IA, Compliance Ley Marco 21.663.",
+  "address":{"@type":"PostalAddress","addressLocality":"Santiago","addressCountry":"CL"},
+  "contactPoint":{"@type":"ContactPoint","email":"hola@oceancsec.com","contactType":"sales"},
+  "areaServed":["CL","ES","AR","PE","CO"],
+  "hasOfferCatalog":{
+    "@type":"OfferCatalog",
+    "name":"Servicios de Ciberseguridad",
+    "itemListElement":[
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"vCISO para PYMEs"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"SOC Automatizado con IA"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Compliance Ley Marco 21.663"}}
+    ]
+  }
+}
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -662,6 +705,167 @@
   .reveal-delay-2 { transition-delay: 0.3s; }
   .reveal-delay-3 { transition-delay: 0.45s; }
 
+  /* ── URGENCY STRIP ── */
+  .urgency-strip {
+    position: relative; z-index: 1;
+    background: linear-gradient(90deg, rgba(255,45,85,0.08) 0%, rgba(2,13,24,0) 50%, rgba(255,45,85,0.08) 100%);
+    border-top: 1px solid rgba(255,45,85,0.25);
+    border-bottom: 1px solid rgba(255,45,85,0.25);
+    padding: 1.8rem 3rem;
+    display: flex; align-items: center; justify-content: center;
+    gap: 3rem; flex-wrap: wrap; text-align: center;
+  }
+  .urgency-item { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+  .urgency-num {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.9rem;
+    color: #ff6b35; line-height: 1;
+  }
+  .urgency-label {
+    font-family: 'Space Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+    max-width: 160px; line-height: 1.5;
+  }
+  .urgency-divider { width: 1px; height: 50px; background: rgba(255,107,53,0.3); }
+  .urgency-cta-block { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+  .urgency-cta-label {
+    font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: #ff6b35;
+  }
+
+  /* ── LEY MARCO ── */
+  #ley-marco { background: var(--deep); }
+  .ley-header {
+    text-align: center; margin-bottom: 4rem;
+  }
+  .ley-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    background: rgba(255,107,53,0.12); color: #ff6b35;
+    border: 1px solid rgba(255,107,53,0.35);
+    padding: 0.35rem 1rem; border-radius: 20px; margin-bottom: 1.2rem;
+  }
+  .ley-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5px;
+    background: rgba(0,194,255,0.06); border: 1px solid rgba(0,194,255,0.06);
+    margin-top: 3rem;
+  }
+  .ley-card {
+    background: var(--abyss); padding: 2.2rem;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .ley-card:hover { background: var(--current); border-bottom-color: var(--crest); }
+  .ley-card-step {
+    font-family: 'Space Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.15em; color: var(--accent); margin-bottom: 0.8rem; display: block;
+  }
+  .ley-card h3 {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 1rem; margin-bottom: 0.7rem; color: var(--white);
+  }
+  .ley-card p { font-size: 0.86rem; color: var(--muted); line-height: 1.7; }
+
+  .ley-timeline {
+    margin-top: 3.5rem;
+    display: flex; gap: 0; align-items: stretch;
+    border: 1px solid rgba(0,194,255,0.1);
+    overflow: hidden; border-radius: 2px;
+  }
+  .ley-milestone {
+    flex: 1; padding: 1.5rem; text-align: center;
+    border-right: 1px solid rgba(0,194,255,0.1);
+    position: relative;
+  }
+  .ley-milestone:last-child { border-right: none; }
+  .ley-milestone.active { background: rgba(0,194,255,0.06); }
+  .ley-milestone.urgent { background: rgba(255,45,85,0.06); }
+  .ley-milestone-date {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.1em; color: var(--crest); margin-bottom: 0.5rem; display: block;
+  }
+  .ley-milestone.urgent .ley-milestone-date { color: #ff6b35; }
+  .ley-milestone h4 { font-family: 'Syne', sans-serif; font-size: 0.88rem; margin-bottom: 0.4rem; }
+  .ley-milestone p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  /* ── DIAGNÓSTICO MOCKUP ── */
+  #diagnostico { background: var(--surface); }
+  .diag-grid {
+    display: grid; grid-template-columns: 1fr 1.1fr; gap: 5rem; align-items: center;
+  }
+  .terminal {
+    background: #010b14;
+    border: 1px solid rgba(0,194,255,0.2);
+    border-radius: 4px; overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 40px rgba(0,194,255,0.05);
+  }
+  .terminal-bar {
+    background: var(--current); padding: 0.65rem 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .t-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .t-dot.red   { background: #ff5f56; }
+  .t-dot.yellow{ background: #ffbd2e; }
+  .t-dot.green { background: #27c93f; }
+  .t-title {
+    font-family: 'Space Mono', monospace; font-size: 0.62rem;
+    color: var(--muted); letter-spacing: 0.1em; margin-left: auto; margin-right: auto;
+  }
+  .terminal-body { padding: 1.5rem; font-family: 'Space Mono', monospace; font-size: 0.78rem; }
+  .t-line { display: flex; gap: 0.8rem; margin-bottom: 0.85rem; align-items: flex-start; line-height: 1.5; }
+  .t-sev {
+    flex-shrink: 0; font-size: 0.6rem; letter-spacing: 0.08em;
+    padding: 0.15rem 0.5rem; border-radius: 2px; margin-top: 0.1rem;
+  }
+  .sev-crit  { background: rgba(255,45,85,0.2);  color: #ff2d55; border: 1px solid rgba(255,45,85,0.4); }
+  .sev-high  { background: rgba(255,107,53,0.2); color: #ff6b35; border: 1px solid rgba(255,107,53,0.4); }
+  .sev-med   { background: rgba(255,204,2,0.15); color: #ffcc02; border: 1px solid rgba(255,204,2,0.3); }
+  .sev-info  { background: rgba(0,194,255,0.1);  color: #00c2ff; border: 1px solid rgba(0,194,255,0.25); }
+  .t-text { color: var(--white); }
+  .t-sub  { color: var(--muted); font-size: 0.7rem; }
+  .t-prompt { color: var(--accent); margin-right: 0.3rem; }
+  .t-score-block {
+    margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid rgba(0,194,255,0.1);
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .t-score-num {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 2.2rem; color: #ffcc02; line-height: 1;
+  }
+  .t-score-label { font-size: 0.7rem; color: var(--muted); line-height: 1.5; }
+
+  /* ── COOKIE BANNER ── */
+  #cookie-banner {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+    background: rgba(4,21,37,0.97); backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(0,194,255,0.15);
+    padding: 1rem 3rem; display: flex;
+    align-items: center; justify-content: space-between;
+    gap: 1.5rem; flex-wrap: wrap;
+    transform: translateY(100%); transition: transform 0.4s ease;
+  }
+  #cookie-banner.show { transform: translateY(0); }
+  #cookie-banner p {
+    font-size: 0.82rem; color: var(--muted); line-height: 1.6; flex: 1; min-width: 220px;
+  }
+  #cookie-banner a { color: var(--crest); text-decoration: none; }
+  #cookie-banner a:hover { color: var(--glow); }
+  .cookie-btns { display: flex; gap: 0.8rem; flex-shrink: 0; }
+  .btn-cookie-accept {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em;
+    text-transform: uppercase; background: var(--crest); color: var(--deep);
+    padding: 0.55rem 1.2rem; border: none; border-radius: 2px; cursor: pointer;
+    transition: background 0.3s;
+  }
+  .btn-cookie-accept:hover { background: var(--glow); }
+  .btn-cookie-reject {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em;
+    text-transform: uppercase; background: transparent; color: var(--muted);
+    padding: 0.55rem 1.2rem; border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 2px; cursor: pointer; transition: border-color 0.3s, color 0.3s;
+  }
+  .btn-cookie-reject:hover { border-color: var(--crest); color: var(--crest); }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 1rem 1.5rem; }
@@ -674,6 +878,13 @@
     .contact-grid { grid-template-columns: 1fr; }
     .form-row { grid-template-columns: 1fr; }
     footer { flex-direction: column; text-align: center; }
+    .diag-grid { grid-template-columns: 1fr; }
+    .ley-grid { grid-template-columns: 1fr; }
+    .ley-timeline { flex-direction: column; }
+    .ley-milestone { border-right: none; border-bottom: 1px solid rgba(0,194,255,0.1); }
+    .urgency-strip { gap: 1.5rem; }
+    .urgency-divider { display: none; }
+    #cookie-banner { padding: 1rem 1.5rem; }
   }
 </style>
 </head>
@@ -686,6 +897,7 @@
   <a href="#" class="logo">Ocean<span>CSec</span></a>
   <ul>
     <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#ley-marco">Ley Marco</a></li>
     <li><a href="#nosotros">Nosotros</a></li>
     <li><a href="#portafolio">Portafolio</a></li>
     <li><a href="#contacto">Contacto</a></li>
@@ -712,6 +924,29 @@
     <div class="depth-line"></div>
   </div>
 </section>
+
+<!-- URGENCY STRIP -->
+<div class="urgency-strip reveal">
+  <div class="urgency-item">
+    <span class="urgency-num">Ley 21.663</span>
+    <span class="urgency-label">Ley Marco de Ciberseguridad ya en vigor — ANCI operativa 2025</span>
+  </div>
+  <div class="urgency-divider"></div>
+  <div class="urgency-item">
+    <span class="urgency-num">40.000 UTM</span>
+    <span class="urgency-label">Multa máxima por incumplimiento de la ley (~$3.400M CLP)</span>
+  </div>
+  <div class="urgency-divider"></div>
+  <div class="urgency-item">
+    <span class="urgency-num">67%</span>
+    <span class="urgency-label">de PyMEs en LATAM sufrirá un incidente antes de 2027 — BID</span>
+  </div>
+  <div class="urgency-divider"></div>
+  <div class="urgency-cta-block">
+    <span class="urgency-cta-label">¿Tu empresa está preparada?</span>
+    <a href="#ley-marco" class="btn-primary" style="font-size:0.68rem;padding:0.65rem 1.4rem;">Ver cómo te ayudamos →</a>
+  </div>
+</div>
 
 <!-- STATS STRIP -->
 <div class="stats-strip reveal">
@@ -858,6 +1093,164 @@
   </div>
 </section>
 
+<!-- LEY MARCO 21.663 -->
+<section id="ley-marco">
+  <div class="section-inner">
+    <div class="ley-header">
+      <span class="ley-badge reveal">⚖️ Obligación legal vigente</span>
+      <h2 class="section-title reveal reveal-delay-1">Ley Marco de<br>Ciberseguridad 21.663.</h2>
+      <p class="section-body reveal reveal-delay-2" style="max-width:620px;margin:0 auto;">
+        Chile fue el primer país de América Latina en promulgar una ley marco de ciberseguridad. La ANCI ya opera. Las obligaciones son exigibles. Nosotros te llevamos desde el diagnóstico hasta el cumplimiento.
+      </p>
+    </div>
+
+    <div class="ley-grid reveal">
+      <div class="ley-card">
+        <span class="ley-card-step">// 01 · Diagnóstico</span>
+        <h3>Gap Analysis regulatorio</h3>
+        <p>Evaluamos tu postura actual frente a los requisitos de la Ley 21.663, identificamos brechas críticas y priorizamos por impacto y probabilidad de sanción.</p>
+      </div>
+      <div class="ley-card">
+        <span class="ley-card-step">// 02 · Implementación</span>
+        <h3>Plan de adecuación técnica</h3>
+        <p>Gestionamos los controles técnicos y organizacionales exigidos: gestión de incidentes, continuidad de negocio, notificación a la ANCI y registro de activos críticos.</p>
+      </div>
+      <div class="ley-card">
+        <span class="ley-card-step">// 03 · Mantenimiento</span>
+        <h3>Cumplimiento continuo</h3>
+        <p>Monitoreo permanente, evidencias auditables y reportes para demostrar cumplimiento ante la ANCI y organismos sectoriales (CMF, SUSESO, Ministerio Salud).</p>
+      </div>
+      <div class="ley-card">
+        <span class="ley-card-step">// Afectados</span>
+        <h3>¿A quién aplica?</h3>
+        <p>Operadores de importancia vital (OIV), instituciones financieras, salud, energía, telecomunicaciones, agua y organismos públicos. Desde 2026: cadena de suministro.</p>
+      </div>
+      <div class="ley-card">
+        <span class="ley-card-step">// Sanciones</span>
+        <h3>Riesgos de no cumplir</h3>
+        <p>Multas de hasta 40.000 UTM (~$3.400M CLP), publicación de sanciones, inhabilitación de contratos con el Estado y responsabilidad penal de directivos.</p>
+      </div>
+      <div class="ley-card">
+        <span class="ley-card-step">// Diferenciador</span>
+        <h3>Licitaciones ChileCompra</h3>
+        <p>La acreditación ante la ANCI se convertirá en requisito habilitante para licitaciones públicas. Adelántate y transforma el cumplimiento en ventaja competitiva.</p>
+      </div>
+    </div>
+
+    <div class="ley-timeline reveal" style="margin-top:3rem;">
+      <div class="ley-milestone active">
+        <span class="ley-milestone-date">Ene 2025</span>
+        <h4>ANCI operativa</h4>
+        <p>Agencia Nacional de Ciberseguridad en funcionamiento</p>
+      </div>
+      <div class="ley-milestone active">
+        <span class="ley-milestone-date">Mar 2025</span>
+        <h4>Registro OIV</h4>
+        <p>Plazo para que operadores críticos se registren como OIV</p>
+      </div>
+      <div class="ley-milestone urgent">
+        <span class="ley-milestone-date">Jun 2025 →</span>
+        <h4>Controles mínimos</h4>
+        <p>Implementación obligatoria de controles de seguridad base</p>
+      </div>
+      <div class="ley-milestone urgent">
+        <span class="ley-milestone-date">2026</span>
+        <h4>Cadena de suministro</h4>
+        <p>Extensión a proveedores y contratistas de OIV</p>
+      </div>
+      <div class="ley-milestone">
+        <span class="ley-milestone-date">2027</span>
+        <h4>Auditorías externas</h4>
+        <p>Auditorías independientes obligatorias para todos los OIV</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGNÓSTICO MOCKUP -->
+<section id="diagnostico">
+  <div class="section-inner">
+    <div class="diag-grid">
+      <div>
+        <span class="section-tag reveal">// Así trabajamos</span>
+        <h2 class="section-title reveal reveal-delay-1">Un engagement<br>real, sin filtros.</h2>
+        <p class="section-body reveal reveal-delay-2">
+          Esto es lo que encuentran nuestros analistas en un diagnóstico de exposición externa típico. Hallazgos reales, no presentaciones genéricas.
+        </p>
+        <ul class="about-points reveal reveal-delay-3" style="margin-top:1.5rem;">
+          <li>Recon pasivo + activo de superficie de ataque externa</li>
+          <li>Análisis de subdominios, puertos, servicios y credenciales expuestas</li>
+          <li>Correlación con CVEs activos y amenazas del sector</li>
+          <li>Reporte ejecutivo + técnico con plan de remediación priorizado</li>
+        </ul>
+        <div style="margin-top:2rem;" class="reveal reveal-delay-3">
+          <a href="#contacto" class="btn-primary">Solicitar diagnóstico gratuito →</a>
+        </div>
+      </div>
+      <div class="terminal reveal reveal-delay-1">
+        <div class="terminal-bar">
+          <span class="t-dot red"></span>
+          <span class="t-dot yellow"></span>
+          <span class="t-dot green"></span>
+          <span class="t-title">oceancsec · surface-recon · empresa-ejemplo.cl</span>
+        </div>
+        <div class="terminal-body">
+          <div class="t-line">
+            <span class="t-prompt">$</span>
+            <span class="t-text">inicializando análisis de superficie externa...</span>
+          </div>
+          <div class="t-line">
+            <span class="t-sev sev-crit">CRÍTICO</span>
+            <div>
+              <div class="t-text">Token de GitHub expuesto en subdominio público</div>
+              <div class="t-sub">dev.empresa-ejemplo.cl/config.js · acceso a repositorios privados</div>
+            </div>
+          </div>
+          <div class="t-line">
+            <span class="t-sev sev-crit">CRÍTICO</span>
+            <div>
+              <div class="t-text">Panel de administración accesible sin MFA</div>
+              <div class="t-sub">admin.empresa-ejemplo.cl:8443 · credenciales por defecto activas</div>
+            </div>
+          </div>
+          <div class="t-line">
+            <span class="t-sev sev-high">ALTO</span>
+            <div>
+              <div class="t-text">SSL/TLS v1.0 habilitado — CVE-2011-3389 (BEAST)</div>
+              <div class="t-sub">api.empresa-ejemplo.cl · 3 endpoints vulnerables</div>
+            </div>
+          </div>
+          <div class="t-line">
+            <span class="t-sev sev-high">ALTO</span>
+            <div>
+              <div class="t-text">Bucket S3 público con datos de clientes</div>
+              <div class="t-sub">empresa-backups.s3.amazonaws.com · 2.3 GB expuestos</div>
+            </div>
+          </div>
+          <div class="t-line">
+            <span class="t-sev sev-med">MEDIO</span>
+            <div>
+              <div class="t-text">CORS mal configurado — wildcard origin</div>
+              <div class="t-sub">api.empresa-ejemplo.cl · permite requests cross-origin arbitrarios</div>
+            </div>
+          </div>
+          <div class="t-line">
+            <span class="t-sev sev-info">INFO</span>
+            <div>
+              <div class="t-text">14 subdominios activos mapeados · 3 sin uso aparente</div>
+              <div class="t-sub">staging, old-app, test · candidatos a descomisionar</div>
+            </div>
+          </div>
+          <div class="t-score-block">
+            <span class="t-score-num">34<span style="font-size:1rem;color:var(--muted)">/100</span></span>
+            <span class="t-score-label">Índice de exposición externa<br><span style="color:#ff6b35">RIESGO ALTO · 2 críticos requieren acción inmediata</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACTO -->
 <section id="contacto">
   <div class="section-inner">
@@ -884,34 +1277,74 @@
       <form class="reveal" onsubmit="handleForm(event)">
         <div class="form-row">
           <div class="form-group">
-            <label>Nombre</label>
-            <input type="text" placeholder="Tu nombre" required>
+            <label>Nombre *</label>
+            <input type="text" name="nombre" placeholder="Tu nombre" required>
           </div>
           <div class="form-group">
-            <label>Empresa</label>
-            <input type="text" placeholder="Nombre de tu empresa">
+            <label>Empresa *</label>
+            <input type="text" name="empresa" placeholder="Nombre de tu empresa" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email corporativo *</label>
+            <input type="email" name="email" placeholder="tu@empresa.com" required>
+          </div>
+          <div class="form-group">
+            <label>Teléfono / WhatsApp</label>
+            <input type="tel" name="telefono" placeholder="+56 9 1234 5678">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Sector</label>
+            <select name="sector">
+              <option value="">Selecciona tu sector</option>
+              <option>Finanzas / Banca / Seguros</option>
+              <option>Salud / Clínicas / Farma</option>
+              <option>Retail / E-commerce</option>
+              <option>Tecnología / SaaS</option>
+              <option>Manufactura / Industria</option>
+              <option>Energía / Minería</option>
+              <option>Educación</option>
+              <option>Gobierno / Municipio</option>
+              <option>Startup de Ciberseguridad</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tamaño empresa</label>
+            <select name="tamano">
+              <option value="">Número de empleados</option>
+              <option>1 – 10</option>
+              <option>11 – 50</option>
+              <option>51 – 200</option>
+              <option>201 – 1.000</option>
+              <option>Más de 1.000</option>
+            </select>
           </div>
         </div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="email" placeholder="tu@empresa.com" required>
-        </div>
-        <div class="form-group">
-          <label>¿Qué buscas?</label>
-          <select>
+          <label>¿Qué necesitas?</label>
+          <select name="servicio">
             <option value="">Selecciona una opción</option>
-            <option>Protección para mi empresa</option>
+            <option>Diagnóstico de exposición externa (gratuito)</option>
+            <option>Compliance Ley Marco 21.663</option>
+            <option>vCISO para mi empresa</option>
+            <option>SOC Automatizado con IA</option>
             <option>Representación de mi startup en LATAM</option>
-            <option>Consultoría de ciberseguridad</option>
             <option>Partnership / Canal de distribución</option>
             <option>Otro</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Mensaje</label>
-          <textarea placeholder="Cuéntanos sobre tu empresa y qué necesitas..."></textarea>
+          <label>Cuéntanos más</label>
+          <textarea name="mensaje" placeholder="¿Cuál es tu principal preocupación de seguridad hoy?"></textarea>
         </div>
         <button type="submit" class="form-submit">Enviar mensaje →</button>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:0.5rem;font-family:'Space Mono',monospace;">
+          Al enviar aceptas nuestra <a href="#" style="color:var(--crest);">Política de Privacidad</a>. Sin spam, jamás.
+        </p>
       </form>
     </div>
   </div>
@@ -920,13 +1353,26 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">Ocean<span>CSec</span></div>
-  <div class="footer-copy">© 2025 OceanCSec SpA · Santiago, Chile · oceancsec.com</div>
+  <div class="footer-copy">© 2025 OceanCSec SpA · Santiago, Chile · Ley 21.663 Compliance Partner</div>
   <div class="footer-links">
-    <a href="#">LinkedIn</a>
-    <a href="#">Privacidad</a>
+    <a href="#ley-marco">Ley Marco</a>
+    <a href="#" id="footer-privacy">Privacidad</a>
     <a href="#contacto">Contacto</a>
   </div>
 </footer>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" role="dialog" aria-label="Aviso de cookies">
+  <p>
+    Usamos cookies propias para mejorar tu experiencia y analizar el tráfico. Al aceptar, consientes su uso según nuestra
+    <a href="#" id="footer-privacy">Política de Privacidad</a>.
+    Aplicable bajo RGPD (España / UE) y Ley 19.628 (Chile).
+  </p>
+  <div class="cookie-btns">
+    <button id="btn-cookie-accept" class="btn-cookie-accept">Aceptar todas</button>
+    <button id="btn-cookie-reject" class="btn-cookie-reject">Solo esenciales</button>
+  </div>
+</div>
 
 <script>
 /* ── OCEAN CANVAS ── */
@@ -1015,14 +1461,37 @@ reveals.forEach(el => observer.observe(el));
 function handleForm(e) {
   e.preventDefault();
   const btn = e.target.querySelector('.form-submit');
-  btn.textContent = '✓ Mensaje enviado';
+  const data = new FormData(e.target);
+  // Basic lead qualification log (replace with your backend/Formspree endpoint)
+  console.log('Lead:', Object.fromEntries(data));
+  btn.textContent = '✓ Mensaje enviado — te contactamos pronto';
   btn.style.background = 'var(--accent)';
   setTimeout(() => {
     btn.textContent = 'Enviar mensaje →';
     btn.style.background = '';
     e.target.reset();
-  }, 3000);
+  }, 4000);
 }
+
+/* ── COOKIES ── */
+(function() {
+  const banner = document.getElementById('cookie-banner');
+  if (!localStorage.getItem('oc_cookies')) {
+    setTimeout(() => banner.classList.add('show'), 1200);
+  }
+  document.getElementById('btn-cookie-accept').addEventListener('click', () => {
+    localStorage.setItem('oc_cookies', 'all');
+    banner.classList.remove('show');
+  });
+  document.getElementById('btn-cookie-reject').addEventListener('click', () => {
+    localStorage.setItem('oc_cookies', 'essential');
+    banner.classList.remove('show');
+  });
+  document.getElementById('footer-privacy').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!localStorage.getItem('oc_cookies')) banner.classList.add('show');
+  });
+})();
 </script>
 </body>
 </html>
